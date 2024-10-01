@@ -5,12 +5,14 @@ const { Server } = require("socket.io");
 const cors = require("cors");
 
 const corsOptions = {
-  origin: "https://chat-app-client-navy.vercel.app", 
+  origin: "https://chat-app-client-navy.vercel.app", // Adjust if needed
   methods: ["GET", "POST"],
-  credentials: true // Allow cookies to be sent with requests
+  credentials: true, // Allow credentials if you need them
 };
 
 app.use(cors(corsOptions));
+
+app.options('*', cors(corsOptions));
 
 const server = http.createServer(app);
 
@@ -18,7 +20,6 @@ const io = new Server(server, {
   cors: {
     origin: "https://chat-app-client-navy.vercel.app",
     methods: ["GET", "POST"],
-    credentials: true
   },
 });
 
