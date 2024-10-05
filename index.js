@@ -4,21 +4,17 @@ const http = require("http");
 const { Server } = require("socket.io");
 const cors = require("cors");
 
-const corsOptions = {
-  origin: "https://chat-app-client-navy.vercel.app", // Adjust if needed
-  methods: ["GET", "POST"],
-  credentials: true, // Allow credentials if you need them
-};
-
-app.use(cors(corsOptions));
-
-app.options('*', cors(corsOptions));
+app.use(
+  cors({
+    origin: "*",
+  })
+);
 
 const server = http.createServer(app);
 
 const io = new Server(server, {
   cors: {
-    origin: "https://chat-app-client-navy.vercel.app",
+    origin: "*",
     methods: ["GET", "POST"],
   },
 });
@@ -32,11 +28,10 @@ io.on("connection", (socket) => {
 
   socket.on("send_message", (data) => {
     console.log(data, "daada");
-    
+
     socket.to(data.room).emit("receive_message", data);
     // socket.broadcast.emit("receive_message", data.message);
     // console.log(data,"msg");
-    
   });
 });
 
