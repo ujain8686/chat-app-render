@@ -4,35 +4,22 @@ const http = require("http");
 const { Server } = require("socket.io");
 const cors = require("cors");
 
+
+// const server = http.createServer(app);
+const allowedOrigins = ["https://chat-app-client-navy.vercel.app"];
+
 // app.use(
 //   cors({
-//     origin: "*",
+//     origin: allowedOrigins,
+//     methods: ["GET", "POST"],
+//     credentials: true,
 //   })
 // );
 
-// const server = http.createServer(app);
-
-// const io = new Server(server, {
-//   cors: {
-//     origin: "*",
-//     methods: ["GET", "POST"],
-//   },
-// });
-
-const server = http.createServer(app);
-const allowedOrigins = ["https://chat-app-client-navy.vercel.app"];
-
-app.use(
-  cors({
-    origin: allowedOrigins,
-    methods: ["GET", "POST"],
-    credentials: true,
-  })
-);
-
-const io = new Server(server, {
+const io = new Server({
   cors: {
-    origin: allowedOrigins,
+    origin: "*",
+    // origin: allowedOrigins,
     methods: ["GET", "POST"],
     credentials: true,
   },
@@ -54,6 +41,6 @@ io.on("connection", (socket) => {
   });
 });
 
-server.listen(3001, () => {
+io.listen(3001, () => {
   console.log("SERVER IS RUNNING...");
 });
