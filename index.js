@@ -43,9 +43,9 @@ io.on("connection", (socket) => {
 
 //deploy code
 const dirPath = path.resolve();
-app.use(express.static("./client/dist"));
+app.use(express.static("./Frontend/dist"));
 app.get("*", (req,res)=>{
-  res.sendFile(path.resolve(dirPath, './client/dist', 'index.html'));
+  res.sendFile(path.resolve(dirPath, './Frontend/dist', 'index.html'));
 });
 
 
