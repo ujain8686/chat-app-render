@@ -3,20 +3,20 @@ const app = express();
 const http = require("http");
 const { Server } = require("socket.io");
 const cors = require("cors");
+const path = require("path");
 
-
-// const server = http.createServer(app);
+const server = http.createServer(app);
 const allowedOrigins = ["https://chat-app-client-navy.vercel.app"];
 
-// app.use(
-//   cors({
-//     origin: allowedOrigins,
-//     methods: ["GET", "POST"],
-//     credentials: true,
-//   })
-// );
+app.use(
+  cors({
+    origin: "*",
+    methods: ["GET", "POST"],
+    credentials: true,
+  })
+);
 
-const io = new Server({
+const io = new Server(server, {
   cors: {
     origin: "*",
     // origin: allowedOrigins,
@@ -41,6 +41,14 @@ io.on("connection", (socket) => {
   });
 });
 
-io.listen(3001, () => {
+//deploy code
+const dirPath = path.resolve();
+app.use(express.static("./client/dist"));
+app.get("*", (req,res)=>{
+  res.sendFile(path.resolve(dirPath, './client/dist', 'index.html'));
+});
+
+
+server.listen(3001, () => {
   console.log("SERVER IS RUNNING...");
 });
